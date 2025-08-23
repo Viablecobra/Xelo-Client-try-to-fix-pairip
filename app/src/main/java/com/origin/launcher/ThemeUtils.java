@@ -26,7 +26,7 @@ public class ThemeUtils {
         card.setStrokeColor(themeManager.getColor("outline"));
         card.setStrokeWidth((int) (1 * context.getResources().getDisplayMetrics().density)); // 1dp stroke
         card.setCardElevation(0f); // Remove elevation for flat design
-        card.setRadius(12 * context.getResources().getDisplayMetrics().density); // 12dp radius
+        card.setRadius(16 * context.getResources().getDisplayMetrics().density); // 12dp radius
         
         // Create ripple effect with theme colors
         RippleDrawable ripple = new RippleDrawable(
