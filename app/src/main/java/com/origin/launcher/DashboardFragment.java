@@ -512,8 +512,7 @@ public class DashboardFragment extends BaseThemedFragment {
     }
     
     private View createModuleView(ModuleItem module) {
-        // Create card layout (matching theme card design)
-        
+    // Create card layout (matching theme card design)
     MaterialCardView moduleCard = new MaterialCardView(getContext());
     
     // Set layout params
@@ -529,21 +528,30 @@ public class DashboardFragment extends BaseThemedFragment {
     );
     moduleCard.setLayoutParams(cardParams);
     
-    // Apply card styling EXACTLY like themes card
+    // Apply card styling - FIX: Set corner radius BEFORE other properties
+    moduleCard.setRadius(12 * getResources().getDisplayMetrics().density);
+    
+    // Apply background and styling
     moduleCard.setCardBackgroundColor(ThemeManager.getInstance().getColor("surfaceVariant"));
     moduleCard.setStrokeColor(ThemeManager.getInstance().getColor("outline"));
     moduleCard.setStrokeWidth((int) (1 * getResources().getDisplayMetrics().density));
     moduleCard.setCardElevation(2 * getResources().getDisplayMetrics().density);
-    moduleCard.setRadius(12 * getResources().getDisplayMetrics().density);
+    
+    // FIX: Ensure the card is properly configured for rounded corners
+    moduleCard.setUseCompatPadding(true);
+    moduleCard.setPreventCornerOverlap(true);
+    
     moduleCard.setClickable(true);
     moduleCard.setFocusable(true);
     
-    // Add ripple effect exactly like themes card
+    // FIX: Create ripple drawable with proper bounds that respect corner radius
     RippleDrawable ripple = new RippleDrawable(
         ColorStateList.valueOf(ThemeUtils.createOptimizedRippleColor("onSurface", "card")),
         null,
-        null
+        null // Let the MaterialCardView handle the mask for proper corner clipping
     );
+    
+    // FIX: Set the ripple as foreground AFTER all card properties are set
     moduleCard.setForeground(ripple);
     
     // Main container
