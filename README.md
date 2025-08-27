@@ -1,9 +1,6 @@
 <p align="center">
-  <img src="https://cdn.discordapp.com/attachments/1152627555493498952/1409840204314837084/Untitled225_20250730203813.png?ex=68aed782&is=68ad8602&hm=fee0c2372ab5ba521ff939ea1290dd4e206f04bf491a03a8cffa1e29e2272ebd&" width="200" height="80"/>
+  <img src="https://cdn.discordapp.com/attachments/1152627555493498952/1409840204314837084/Untitled225_20250730203813.png?ex=68aed782&is=68ad8602&hm=fee0c2372ab5ba521ff939ea1290dd4e206f04bf491a03a8cffa1e29e2272ebd&" width="351" height="81"/>
 </p>
-
-<h2 align="center"><b>Xelo-Client</b></h2>
-
 <div align="center">
 
 
@@ -35,6 +32,7 @@
   - [x] Optimizations(particles, shadows, etc)
   - [x] AMOLED Theme
   - [ ] In game mod menu
+  - [ ] version manager/installer
   - [ ] Cosmetics
   - [x] Options.txt editor
   - [x] Device info(arch, ram, model, etc)
@@ -74,14 +72,13 @@ Join the Xelo-Client community to stay updated and engage with other users:
 ## Screenshots
 
 <div>
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/01.jpg" width="32%" />
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/02.jpg" width="32%" />
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/03.jpg" width="32%" />
+  <img src="screenshots/home.png" width="32%" />
+  <img src="screenshots/dashboard.png" width="32%" />
+  <img src="screenshots/settings.png" width="32%" />
 </div>
 <div>
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/04.jpg" width="32%" />
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/05.jpg" width="32%" />
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/06.jpg" width="32%" />
+  <img src="screenshots/themes.png" width="49%" />
+  <img src="screenshots/modules.png" width="49%" />
 </div>
 
 
@@ -92,10 +89,10 @@ We welcome contributions! Please read the [CONTRIBUTING.md](/docs/CONTRIBUTING.m
 
 ## Get Involved
 
-Translate Karbon! Visit [Weblate](https://hosted.weblate.org/engage/Xelo-Client/) to get involved:
+Contribute themes/capes for Xelo! join [discord](https://dsc.gg/xelo) to get involved:
 
-<a href="https://hosted.weblate.org/engage/Xelo-Client/">
-    <img src="https://hosted.weblate.org/widgets/Xelo-Client/-/multi-auto.svg" alt="Translation Status">
+<a href="https://dsc.gg/xelo">
+    <img src="https://img.shields.io/badge/your-support-black" alt="ur gay">
 </a>
 
 
