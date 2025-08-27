@@ -55,6 +55,10 @@ import java.util.Stack;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.RippleDrawable;
+import android.graphics.Color;
 
 public class DashboardFragment extends BaseThemedFragment {
     private File currentRootDir = null; // Store the found root directory
@@ -160,11 +164,13 @@ public class DashboardFragment extends BaseThemedFragment {
             } else {
                 folderNames.add("No Minecraft data found");
             }
-            FolderAdapter adapter = new FolderAdapter(folderNames);
+            FolderAdapter adapter = new FolderAdapter(folderNames, getContext());
             folderRecyclerView.setAdapter(adapter);
         }
 
         if (backupButton != null) {
+            // Apply theme to backup button
+            ThemeUtils.applyThemeToButton(backupButton, requireContext());
             backupButton.setOnClickListener(v -> {
                 if (hasStoragePermission()) {
                     if (currentRootDir != null) {
@@ -179,6 +185,8 @@ public class DashboardFragment extends BaseThemedFragment {
         }
 
         if (importButton != null) {
+            // Apply theme to import button
+            ThemeUtils.applyThemeToButton(importButton, requireContext());
             importButton.setOnClickListener(v -> {
                 if (hasStoragePermission()) {
                     openFileChooser();
@@ -197,12 +205,260 @@ public class DashboardFragment extends BaseThemedFragment {
         return view;
     }
     
+    /**
+     * Refresh folder themes when theme changes
+     */
+    private void refreshFolderThemes() {
+        try {
+            RecyclerView folderRecyclerView = getView().findViewById(R.id.folderRecyclerView);
+            if (folderRecyclerView != null && folderRecyclerView.getAdapter() != null) {
+                // Force refresh of all folder items with animation
+                folderRecyclerView.getAdapter().notifyDataSetChanged();
+                
+                // Apply animated theme changes to existing folder items
+                for (int i = 0; i < folderRecyclerView.getChildCount(); i++) {
+                    View child = folderRecyclerView.getChildAt(i);
+                    if (child instanceof MaterialCardView) {
+                        MaterialCardView card = (MaterialCardView) child;
+                        
+                        // Get current colors
+                        int currentBackground = card.getCardBackgroundColor().getDefaultColor();
+                        int currentStroke = card.getStrokeColor();
+                        
+                        // Get target colors
+                        int targetBackground = ThemeManager.getInstance().getColor("surfaceVariant");
+                        int targetStroke = ThemeManager.getInstance().getColor("outline");
+                        
+                        // Animate color transitions
+                        ThemeUtils.animateBackgroundColorTransition(card, currentBackground, targetBackground, 300);
+                        ThemeUtils.animateColorTransition(currentStroke, targetStroke, 300, 
+                            va -> {
+                                int animated = (int) va.getAnimatedValue();
+                                card.setStrokeColor(animated);
+                            });
+                        
+                        // Ensure corner radius is preserved
+                        card.setRadius(12 * getResources().getDisplayMetrics().density);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // Handle error gracefully
+        }
+    }
+    
+    /**
+     * Refresh toggle themes when theme changes
+     */
+    private void refreshToggleThemes() {
+        try {
+            if (modulesContainer != null) {
+                for (int i = 0; i < modulesContainer.getChildCount(); i++) {
+                    View child = modulesContainer.getChildAt(i);
+                    if (child instanceof MaterialCardView) {
+                        // Find MaterialSwitch in the card and refresh its theme with animation
+                        refreshSwitchThemeInCardWithAnimation((MaterialCardView) child);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // Handle error gracefully
+        }
+    }
+    
+    /**
+     * Refresh switch theme within a card with animation
+     */
+    private void refreshSwitchThemeInCardWithAnimation(MaterialCardView card) {
+        try {
+            // Find MaterialSwitch in the card
+            for (int i = 0; i < ((ViewGroup) card.getChildAt(0)).getChildCount(); i++) {
+                View child = ((ViewGroup) card.getChildAt(0)).getChildAt(i);
+                if (child instanceof LinearLayout) {
+                    LinearLayout layout = (LinearLayout) child;
+                    for (int j = 0; j < layout.getChildCount(); j++) {
+                        View layoutChild = layout.getChildAt(j);
+                        if (layoutChild instanceof LinearLayout) {
+                            LinearLayout rightContainer = (LinearLayout) layoutChild;
+                            for (int k = 0; k < rightContainer.getChildCount(); k++) {
+                                View rightChild = rightContainer.getChildAt(k);
+                                if (rightChild instanceof MaterialSwitch) {
+                                    MaterialSwitch materialSwitch = (MaterialSwitch) rightChild;
+                                    
+                                    // Get current colors
+                                    ColorStateList currentTrackColors = materialSwitch.getTrackTintList();
+                                    ColorStateList currentThumbColors = materialSwitch.getThumbTintList();
+                                    
+                                    // Apply new theme
+                                    ThemeUtils.applyThemeToSwitch(materialSwitch, requireContext());
+                                    
+                                    // Get new colors
+                                    ColorStateList newTrackColors = materialSwitch.getTrackTintList();
+                                    ColorStateList newThumbColors = materialSwitch.getThumbTintList();
+                                    
+                                                            // Animate color transitions if colors changed
+                        if (currentTrackColors != null && newTrackColors != null) {
+                            int currentTrack = currentTrackColors.getDefaultColor();
+                            int newTrack = newTrackColors.getDefaultColor();
+                            if (currentTrack != newTrack) {
+                                ThemeUtils.animateColorTransition(currentTrack, newTrack, 300, 
+                                    va -> materialSwitch.setTrackTintList(ColorStateList.valueOf((int) va.getAnimatedValue())));
+                            }
+                        }
+                        
+                        if (currentThumbColors != null && newThumbColors != null) {
+                            int currentThumb = currentThumbColors.getDefaultColor();
+                            int newThumb = newThumbColors.getDefaultColor();
+                            if (currentThumb != newThumb) {
+                                ThemeUtils.animateColorTransition(currentThumb, newThumb, 300, 
+                                    va -> materialSwitch.setThumbTintList(ColorStateList.valueOf((int) va.getAnimatedValue())));
+                            }
+                        }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // Handle error gracefully
+        }
+    }
+    
     @Override
     protected void onApplyTheme() {
-        // Apply theme to the root view background
+        // Apply theme to the root view background with animation
         View rootView = getView();
         if (rootView != null) {
-            rootView.setBackgroundColor(ThemeManager.getInstance().getColor("background"));
+            try {
+                // Get current background color safely
+                int currentBackground = Color.parseColor("#0A0A0A"); // Default fallback
+                if (rootView.getBackground() != null) {
+                    try {
+                        currentBackground = ((android.graphics.drawable.ColorDrawable) rootView.getBackground()).getColor();
+                    } catch (Exception e) {
+                        // Use default if we can't get current color
+                    }
+                }
+                
+                int targetBackground = ThemeManager.getInstance().getColor("background");
+                
+                // Animate background color transition
+                ThemeUtils.animateBackgroundColorTransition(rootView, currentBackground, targetBackground, 300);
+            } catch (Exception e) {
+                // Fallback to immediate theme application
+                rootView.setBackgroundColor(ThemeManager.getInstance().getColor("background"));
+            }
+        }
+        
+        // Apply theme to ScrollView and modules container background
+        refreshScrollViewBackground();
+        
+        // Refresh button themes with animation
+        refreshButtonThemesWithAnimation();
+        
+        // Refresh all ripple effects in the entire view hierarchy
+        if (rootView != null) {
+            ThemeUtils.refreshRippleEffects(rootView);
+        }
+        
+        // Refresh module card backgrounds to ensure they remain visible
+        refreshModuleCardBackgroundsWithAnimation();
+        
+        // Refresh folder themes
+        refreshFolderThemes();
+        
+        // Refresh toggle themes
+        refreshToggleThemes();
+    }
+    
+    /**
+     * Refresh button themes with animation when theme changes
+     */
+    private void refreshButtonThemesWithAnimation() {
+        try {
+            View view = getView();
+            if (view != null) {
+                // Refresh backup and import buttons with animation
+                MaterialButton backupButton = view.findViewById(R.id.backupButton);
+                MaterialButton importButton = view.findViewById(R.id.importButton);
+                
+                if (backupButton != null) {
+                    ThemeUtils.applyThemeToButtonWithAnimation(backupButton, requireContext(), 300);
+                }
+                if (importButton != null) {
+                    ThemeUtils.applyThemeToButtonWithAnimation(importButton, requireContext(), 300);
+                }
+                
+                // Refresh config buttons with animation
+                MaterialButton exportConfigButton = view.findViewById(R.id.exportConfigButton);
+                MaterialButton importConfigButton = view.findViewById(R.id.importConfigButton);
+                
+                if (exportConfigButton != null) {
+                    ThemeUtils.applyThemeToButtonWithAnimation(exportConfigButton, requireContext(), 300);
+                }
+                if (importConfigButton != null) {
+                    ThemeUtils.applyThemeToButtonWithAnimation(importConfigButton, requireContext(), 300);
+                }
+                
+                // Refresh module card ripple effects
+                refreshModuleCardRipples();
+            }
+        } catch (Exception e) {
+            // Handle error gracefully
+        }
+    }
+    
+    /**
+     * Refresh ripple effects on module cards
+     */
+    private void refreshModuleCardRipples() {
+        try {
+            if (modulesContainer != null) {
+                // Use the new ThemeUtils method for consistent ripple refresh
+                ThemeUtils.refreshRippleEffects(modulesContainer);
+                
+                // Also refresh the card backgrounds to ensure they remain visible
+                refreshModuleCardBackgroundsWithAnimation();
+                
+                // Refresh toggle themes in the cards
+                refreshToggleThemes();
+            }
+        } catch (Exception e) {
+            // Handle error gracefully
+        }
+    }
+    
+    /**
+     * Refresh module card backgrounds with animation to ensure they remain visible
+     */
+    private void refreshModuleCardBackgroundsWithAnimation() {
+        try {
+            if (modulesContainer != null) {
+                for (int i = 0; i < modulesContainer.getChildCount(); i++) {
+                    View child = modulesContainer.getChildAt(i);
+                    if (child instanceof MaterialCardView) {
+                        MaterialCardView card = (MaterialCardView) child;
+                        
+                        // Get current background color
+                        int currentBackground = card.getCardBackgroundColor().getDefaultColor();
+                        int targetBackground = ThemeManager.getInstance().getColor("surfaceVariant");
+                        
+                        // Animate background color transition
+                        ThemeUtils.animateBackgroundColorTransition(card, currentBackground, targetBackground, 300);
+                        
+                        // Ensure elevation and border are maintained
+                        card.setCardElevation(2 * getResources().getDisplayMetrics().density);
+                        card.setStrokeColor(ThemeManager.getInstance().getColor("outline"));
+                        card.setStrokeWidth((int) (1 * getResources().getDisplayMetrics().density));
+                        
+                        // Ensure corner radius is preserved
+                        card.setRadius(12 * getResources().getDisplayMetrics().density);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // Handle error gracefully
         }
     }
 
@@ -213,6 +469,9 @@ public class DashboardFragment extends BaseThemedFragment {
         // Get ScrollView and container - UPDATED
         modulesScrollView = view.findViewById(R.id.modulesScrollView);
         modulesContainer = view.findViewById(R.id.modulesContainer);
+        
+        // Apply theme background to ScrollView and container
+        refreshScrollViewBackground();
         
         if (modulesContainer != null) {
             // Initialize module items
@@ -253,29 +512,41 @@ public class DashboardFragment extends BaseThemedFragment {
     }
     
     private View createModuleView(ModuleItem module) {
-    // Create card layout (matching theme card design)
+        // Create card layout (matching theme card design)
+        
     MaterialCardView moduleCard = new MaterialCardView(getContext());
+    
+    // Set layout params
     LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.MATCH_PARENT, 
         LinearLayout.LayoutParams.WRAP_CONTENT
     );
     cardParams.setMargins(
-        (int) (16 * getResources().getDisplayMetrics().density),
         (int) (8 * getResources().getDisplayMetrics().density),
-        (int) (16 * getResources().getDisplayMetrics().density),
+        (int) (8 * getResources().getDisplayMetrics().density),
+        (int) (8 * getResources().getDisplayMetrics().density),
         (int) (8 * getResources().getDisplayMetrics().density)
     );
     moduleCard.setLayoutParams(cardParams);
+    
+    // Apply card styling EXACTLY like themes card
+    moduleCard.setCardBackgroundColor(ThemeManager.getInstance().getColor("surfaceVariant"));
+    moduleCard.setStrokeColor(ThemeManager.getInstance().getColor("outline"));
+    moduleCard.setStrokeWidth((int) (1 * getResources().getDisplayMetrics().density));
+    moduleCard.setCardElevation(2 * getResources().getDisplayMetrics().density);
     moduleCard.setRadius(12 * getResources().getDisplayMetrics().density);
-    moduleCard.setCardElevation(0); // Remove elevation for flat design
     moduleCard.setClickable(true);
     moduleCard.setFocusable(true);
     
-    // Apply theme colors to card (matching themes card)
-    ThemeUtils.applyThemeToCard(moduleCard, requireContext());
-    moduleCard.setStrokeWidth((int) (1 * getResources().getDisplayMetrics().density));
+    // Add ripple effect exactly like themes card
+    RippleDrawable ripple = new RippleDrawable(
+        ColorStateList.valueOf(ThemeUtils.createOptimizedRippleColor("onSurface", "card")),
+        null,
+        null
+    );
+    moduleCard.setForeground(ripple);
     
-    // Main container (horizontal layout like themes)
+    // Main container
     LinearLayout mainLayout = new LinearLayout(getContext());
     mainLayout.setOrientation(LinearLayout.HORIZONTAL);
     mainLayout.setPadding(
@@ -298,7 +569,7 @@ public class DashboardFragment extends BaseThemedFragment {
     iconView.setLayoutParams(iconParams);
     iconView.setColorFilter(ThemeManager.getInstance().getColor("onSurface"));
     
-    // Text container (matching themes layout)
+    // Text container
     LinearLayout textLayout = new LinearLayout(getContext());
     textLayout.setOrientation(LinearLayout.VERTICAL);
     LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
@@ -308,23 +579,23 @@ public class DashboardFragment extends BaseThemedFragment {
     );
     textLayout.setLayoutParams(textParams);
     
-    // Module name (matching theme name styling)
+    // Module name
     TextView moduleNameText = new TextView(getContext());
     moduleNameText.setText(module.getName());
     moduleNameText.setTextSize(16);
     moduleNameText.setTypeface(null, Typeface.BOLD);
-    ThemeUtils.applyThemeToTextView(moduleNameText, "onSurface");
+    moduleNameText.setTextColor(ThemeManager.getInstance().getColor("onSurface"));
     
-    // Module description (matching theme description styling)
+    // Module description
     TextView moduleDescriptionText = new TextView(getContext());
     moduleDescriptionText.setText(module.getDescription());
     moduleDescriptionText.setTextSize(14);
-    ThemeUtils.applyThemeToTextView(moduleDescriptionText, "onSurfaceVariant");
+    moduleDescriptionText.setTextColor(ThemeManager.getInstance().getColor("onSurfaceVariant"));
     LinearLayout.LayoutParams descParams = new LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT, 
         LinearLayout.LayoutParams.WRAP_CONTENT
     );
-    descParams.topMargin = (int) (8 * getResources().getDisplayMetrics().density);
+    descParams.topMargin = (int) (4 * getResources().getDisplayMetrics().density);
     moduleDescriptionText.setLayoutParams(descParams);
     moduleDescriptionText.setMaxLines(2);
     moduleDescriptionText.setEllipsize(android.text.TextUtils.TruncateAt.END);
@@ -332,35 +603,28 @@ public class DashboardFragment extends BaseThemedFragment {
     textLayout.addView(moduleNameText);
     textLayout.addView(moduleDescriptionText);
     
-    // Right side container for switch (matching theme card right container)
-    LinearLayout rightContainer = new LinearLayout(getContext());
-    rightContainer.setOrientation(LinearLayout.HORIZONTAL);
-    rightContainer.setGravity(Gravity.CENTER_VERTICAL);
-    LinearLayout.LayoutParams rightParams = new LinearLayout.LayoutParams(
-        LinearLayout.LayoutParams.WRAP_CONTENT,
-        LinearLayout.LayoutParams.WRAP_CONTENT
-    );
-    rightParams.setMarginStart((int) (16 * getResources().getDisplayMetrics().density));
-    rightContainer.setLayoutParams(rightParams);
-    
-    // Module switch (replacing radio button)
+    // Right side: Toggle switch
     MaterialSwitch moduleSwitch = new MaterialSwitch(getContext());
     LinearLayout.LayoutParams switchParams = new LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT,
         LinearLayout.LayoutParams.WRAP_CONTENT
     );
+    switchParams.setMarginStart((int) (16 * getResources().getDisplayMetrics().density));
     moduleSwitch.setLayoutParams(switchParams);
     moduleSwitch.setChecked(module.isEnabled());
+    
+    // Apply theme to switch
+    ThemeUtils.applyThemeToSwitch(moduleSwitch, requireContext());
+    
     moduleSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
         module.setEnabled(isChecked);
         onModuleToggle(module, isChecked);
     });
     
-    rightContainer.addView(moduleSwitch);
-    
+    // Add all elements to main layout
     mainLayout.addView(iconView);
     mainLayout.addView(textLayout);
-    mainLayout.addView(rightContainer);
+    mainLayout.addView(moduleSwitch);
     
     moduleCard.addView(mainLayout);
     
@@ -372,8 +636,9 @@ public class DashboardFragment extends BaseThemedFragment {
         MaterialButton exportConfigButton = view.findViewById(R.id.exportConfigButton);
         MaterialButton importConfigButton = view.findViewById(R.id.importConfigButton);
         
-        // Set click listeners for the XML buttons
+        // Apply themes to both buttons
         if (exportConfigButton != null) {
+            ThemeUtils.applyThemeToButton(exportConfigButton, requireContext());
             exportConfigButton.setOnClickListener(v -> {
                 if (hasStoragePermission()) {
                     exportConfig();
@@ -384,6 +649,7 @@ public class DashboardFragment extends BaseThemedFragment {
         }
         
         if (importConfigButton != null) {
+            ThemeUtils.applyThemeToButton(importConfigButton, requireContext());
             importConfigButton.setOnClickListener(v -> {
                 if (hasStoragePermission()) {
                     openConfigFileChooser();
@@ -810,7 +1076,7 @@ public class DashboardFragment extends BaseThemedFragment {
             } else {
                 folderNames.add("No Minecraft data found");
             }
-            FolderAdapter adapter = new FolderAdapter(folderNames);
+            FolderAdapter adapter = new FolderAdapter(folderNames, getContext());
             folderRecyclerView.setAdapter(adapter);
         }
     }
@@ -1341,32 +1607,104 @@ public class DashboardFragment extends BaseThemedFragment {
         }
     }
 
+    /**
+     * Refresh ScrollView and container background colors
+     */
+    private void refreshScrollViewBackground() {
+        try {
+            if (modulesScrollView != null) {
+                // Make ScrollView background transparent
+                modulesScrollView.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+            }
+            if (modulesContainer != null) {
+                // Make container background transparent
+                modulesContainer.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+            }
+        } catch (Exception e) {
+            // Fallback to transparent background
+            if (modulesScrollView != null) {
+                modulesScrollView.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+            }
+            if (modulesContainer != null) {
+                modulesContainer.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+            }
+        }
+    }
+
     // Improved adapter for folder names with custom styling
     private static class FolderAdapter extends RecyclerView.Adapter<FolderViewHolder> {
         private final List<String> folders;
-        FolderAdapter(List<String> folders) { this.folders = folders; }
+        private final Context context;
+        
+        FolderAdapter(List<String> folders, Context context) { 
+            this.folders = folders; 
+            this.context = context;
+        }
+        
         @NonNull
         @Override
         public FolderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_folder, parent, false);
             return new FolderViewHolder(view);
         }
+        
         @Override
         public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {
             holder.bind(folders.get(position));
+            // Apply theme to the folder item
+            holder.applyTheme();
         }
+        
         @Override
         public int getItemCount() { return folders.size(); }
     }
     
     private static class FolderViewHolder extends RecyclerView.ViewHolder {
         private final android.widget.TextView textView;
+        private final MaterialCardView cardView;
+        private final ImageView iconView;
+        
         FolderViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.folderNameText);
+            cardView = (MaterialCardView) itemView;
+            iconView = itemView.findViewById(R.id.folderIcon);
         }
+        
         void bind(String folderName) {
             textView.setText(folderName);
+        }
+        
+        void applyTheme() {
+            try {
+                ThemeManager themeManager = ThemeManager.getInstance();
+                if (themeManager != null && themeManager.isThemeLoaded()) {
+                    // Apply theme to the card
+                    cardView.setCardBackgroundColor(themeManager.getColor("surfaceVariant"));
+                    cardView.setStrokeColor(themeManager.getColor("outline"));
+                    cardView.setStrokeWidth((int) (1 * itemView.getContext().getResources().getDisplayMetrics().density));
+                    cardView.setCardElevation(2 * itemView.getContext().getResources().getDisplayMetrics().density);
+                    
+                    // Ensure corner radius is preserved
+                    cardView.setRadius(12 * itemView.getContext().getResources().getDisplayMetrics().density);
+                    
+                    // Apply theme to the text
+                    textView.setTextColor(themeManager.getColor("onSurface"));
+                    
+                    // Apply theme to the icon
+                    iconView.setColorFilter(themeManager.getColor("primary"));
+                    
+                    // Add ripple effect
+                    RippleDrawable ripple = new RippleDrawable(
+                        ColorStateList.valueOf(ThemeUtils.createOptimizedRippleColor("onSurface", "card")),
+                        null,
+                        null
+                    );
+                    cardView.setForeground(ripple);
+                }
+            } catch (Exception e) {
+                // Handle error gracefully
+            }
         }
     }
 }
