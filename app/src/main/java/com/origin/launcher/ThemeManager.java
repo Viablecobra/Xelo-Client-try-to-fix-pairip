@@ -501,7 +501,7 @@ public class ThemeManager {
             case "thumb":
                 return Color.parseColor("#FFFFFF");
             case "thumbChecked":
-                return Color.parseColor("#FFFFFF");
+                return Color.parseColor("#000000");
             case "ripple":
                 return Color.parseColor("#4CAF50");
             default:
