@@ -485,6 +485,9 @@ public class DashboardFragment extends BaseThemedFragment {
             moduleItems.add(new ModuleItem("Classic Vanilla skins", "Disables the newly added skins by mojang", "classic_skins"));
             moduleItems.add(new ModuleItem("No flipbook animation", "optimizes your fps by disabling block animation", "no_flipbook_animations"));
             moduleItems.add(new ModuleItem("No Shadows", "optimizes your fps by disabling shadows", "no_shadows"));
+            moduleItems.add(new ModuleItem("low fire", "lowers the fire texture when ur burning", "low_fire"));
+            moduleItems.add(new ModuleItem("No pumpkin overlay", "disables the blurry overlay when wearing a pumpkin", "no_pumpkin_overlay"));
+            moduleItems.add(new ModuleItem("No spyglass overlay", "disables the square edges when using spyglass", "no_spyglass_overlay"));
             moduleItems.add(new ModuleItem("Xelo Title", "Changes the Start screen title image", "xelo_title"));
             moduleItems.add(new ModuleItem("White Block Outline", "changes the block selection outline to white", "white_block_outline"));
             
@@ -863,6 +866,9 @@ public class DashboardFragment extends BaseThemedFragment {
             defaultConfig.put("no_flipbook_animations", false);
             defaultConfig.put("no_shadows", false);
             defaultConfig.put("night_vision", false);
+            defaultConfig.put("low_fire", false);
+            defaultConfig.put("no_pumpkin_overlay", false);
+            defaultConfig.put("no_spyglass_overlay", false);
             defaultConfig.put("xelo_title", true);
             
             try (FileWriter writer = new FileWriter(configFile)) {
