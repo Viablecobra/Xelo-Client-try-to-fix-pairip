@@ -101,18 +101,19 @@
 					app:icon="@drawable/ic_share"
 					app:iconSize="16dp"
 					app:cornerRadius="20dp"
-					style="@style/Widget.Material3.Button.IconButton" />
+					style="@style/Widget.Material3.Button.TextButton" />
 
 			</LinearLayout>
 
 			<com.google.android.material.card.MaterialCardView
+				android:id="@+id/logCard"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:minHeight="80dp"
 				app:cardCornerRadius="12dp"
 				app:cardBackgroundColor="@color/surfaceVariant"
 				app:strokeWidth="1dp"
-				app:strokeColor="@color/onBackground">
+				app:strokeColor="@color/outline">
 
 				<ScrollView
 					android:layout_width="match_parent"
@@ -140,4 +141,4 @@
 
 	</com.google.android.material.card.MaterialCardView>
 
-</LinearLayout>
+</LinearLayout>	
