@@ -33,7 +33,7 @@
       "track": "#2A2A2A",
       "trackChecked": "#FFFFFF",
       "thumb": "#FFFFFF",
-      "thumbChecked": "#FFFFFF",
+      "thumbChecked": "#000000",
       "ripple": "#FFFFFF"
     }
   }
