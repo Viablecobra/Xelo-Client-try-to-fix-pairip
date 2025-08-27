@@ -97,7 +97,7 @@ public class ModulesFragment extends BaseThemedFragment {
         if (modulesContainer != null) {
             // Initialize module items
             moduleItems = new ArrayList<>();
-            moduleItems.add(new ModuleItem("no hurt cam", "allows you to toggle the in-game hurt cam", "Nohurtcam"));
+            moduleItems.add(new ModuleItem("No hurt cam", "allows you to toggle the in-game hurt cam", "Nohurtcam"));
             moduleItems.add(new ModuleItem("Fullbright", "(Doesnt work with No fog) ofcouse lets u see in the dark moron", "night_vision"));
             moduleItems.add(new ModuleItem("No Fog", "(Doesnt work with fullbright) allows you to toggle the in-game fog", "Nofog"));
             moduleItems.add(new ModuleItem("Particles Disabler", "allows you to toggle the in-game particles", "particles_disabler"));
@@ -108,6 +108,8 @@ public class ModulesFragment extends BaseThemedFragment {
             moduleItems.add(new ModuleItem("No Shadows", "optimizes your fps by disabling shadows", "no_shadows"));
             moduleItems.add(new ModuleItem("Xelo Title", "Changes the Start screen title image", "xelo_title"));
             moduleItems.add(new ModuleItem("White Block Outline", "changes the block selection outline to white", "white_block_outline"));
+            moduleItems.add(new ModuleItem("No pumpkin overlay", "disables the dark blurry overlay when wearing pumpkin", "no_pumpkin_overlay"));
+            moduleItems.add(new ModuleItem("No spyglass overlay", "disables the spyglass overlay when using spyglass", "no_spyglass_overlay"));
             
             // Load current config state and populate modules
             loadModuleStates();
@@ -308,6 +310,8 @@ public class ModulesFragment extends BaseThemedFragment {
             defaultConfig.put("no_flipbook_animations", false);
             defaultConfig.put("no_shadows", false);
             defaultConfig.put("night_vision", false);
+            defaultConfig.put("no_spyglass_overlay", false);
+            defaultConfig.put("no_pumpkin_overlay", false);
             defaultConfig.put("xelo_title", true);
             
             try (FileWriter writer = new FileWriter(configFile)) {
