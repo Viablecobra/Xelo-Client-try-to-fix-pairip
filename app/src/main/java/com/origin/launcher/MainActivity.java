@@ -113,7 +113,7 @@ public class MainActivity extends BaseThemedActivity {
     private void showThemesDialog(SharedPreferences prefs, boolean disclaimerShown) {
         new MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog)
                 .setTitle("THEMES!!🎉")
-                .setMessage("xelo client now supports custom themes! make your own themes from https://docs.xeloclient.com and download themes from https://themes.xeloclient.in")
+                .setMessage("xelo client now supports custom themes! download themes from https://themes.xeloclient.in or make your own themes from https://docs.xeloclient.com")
                 .setIcon(R.drawable.ic_info) // You can use any icon you have, or remove this line
                 .setPositiveButton("Proceed", (dialog, which) -> {
                     dialog.dismiss();
