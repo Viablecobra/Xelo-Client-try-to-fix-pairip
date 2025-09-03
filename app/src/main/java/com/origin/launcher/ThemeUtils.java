@@ -335,35 +335,53 @@ public class ThemeUtils {
     }
     
     /**
-     * Apply theme colors to BottomNavigationView
-     */
-    public static void applyThemeToBottomNavigation(View bottomNavView) {
-        if (bottomNavView instanceof com.google.android.material.bottomnavigation.BottomNavigationView) {
-            com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = 
-                (com.google.android.material.bottomnavigation.BottomNavigationView) bottomNavView;
-            
-            ThemeManager themeManager = ThemeManager.getInstance();
-            
-            // Apply background color
-            bottomNav.setBackgroundColor(themeManager.getColor("surface"));
-            
-            // Create color state list for selected/unselected states
-            ColorStateList itemColorStateList = new ColorStateList(
-                new int[][]{
-                    new int[]{android.R.attr.state_checked},      // Selected item
-                    new int[]{-android.R.attr.state_checked}      // Unselected item
-                },
-                new int[]{
-                    themeManager.getColor("primary"),              // Selected: primary color
-                    themeManager.getColor("onSurfaceVariant")     // Unselected: onSurfaceVariant
-                }
-            );
-            
-            // Apply colors to both text and icons
-            bottomNav.setItemTextColor(itemColorStateList);
-            bottomNav.setItemIconTintList(itemColorStateList);
+ * Apply theme colors to BottomNavigationView
+ */
+public static void applyThemeToBottomNavigation(View bottomNavView) {
+    if (bottomNavView instanceof com.google.android.material.bottomnavigation.BottomNavigationView) {
+        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = 
+            (com.google.android.material.bottomnavigation.BottomNavigationView) bottomNavView;
+        
+        ThemeManager themeManager = ThemeManager.getInstance();
+        
+        // Try to use bottom_navigation color first, fallback to surface
+        int backgroundColor;
+        try {
+            // Check if the theme has a specific bottom_navigation color
+            backgroundColor = themeManager.getColor("bottom_navigation");
+        } catch (Exception e) {
+            // Fallback to surface color if bottom_navigation is not defined
+            backgroundColor = themeManager.getColor("surface");
+        }
+        
+        // Apply background color
+        bottomNav.setBackgroundColor(backgroundColor);
+        
+        // Create color state list for selected/unselected states
+        ColorStateList itemColorStateList = new ColorStateList(
+            new int[][]{
+                new int[]{android.R.attr.state_checked},      // Selected item
+                new int[]{-android.R.attr.state_checked}      // Unselected item
+            },
+            new int[]{
+                themeManager.getColor("primary"),              // Selected: primary color
+                themeManager.getColor("onSurfaceVariant")     // Unselected: onSurfaceVariant
+            }
+        );
+        
+        // Apply colors to both text and icons
+        bottomNav.setItemTextColor(itemColorStateList);
+        bottomNav.setItemIconTintList(itemColorStateList);
+        
+        // Add ripple effect for better interaction feedback
+        try {
+            int rippleColor = createOptimizedRippleColor("primary", "button");
+            bottomNav.setItemRippleColor(ColorStateList.valueOf(rippleColor));
+        } catch (Exception e) {
+            // Ignore ripple errors, some Android versions might not support this
         }
     }
+}
     
     /**
      * Apply theme colors to TextInputLayout
