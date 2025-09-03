@@ -313,7 +313,7 @@ public class ModulesFragment extends BaseThemedFragment {
             defaultConfig.put("night_vision", false);
             defaultConfig.put("no_spyglass_overlay", false);
             defaultConfig.put("no_pumpkin_overlay", false);
-            defaultConfig.put("double_tppview", false)
+            defaultConfig.put("double_tppview", false);
             defaultConfig.put("xelo_title", true);
             
             try (FileWriter writer = new FileWriter(configFile)) {
