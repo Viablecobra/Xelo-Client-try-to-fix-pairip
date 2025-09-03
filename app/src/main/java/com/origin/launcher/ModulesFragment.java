@@ -107,6 +107,7 @@ public class ModulesFragment extends BaseThemedFragment {
             moduleItems.add(new ModuleItem("No flipbook animation", "optimizes your fps by disabling block animation", "no_flipbook_animations"));
             moduleItems.add(new ModuleItem("No Shadows", "optimizes your fps by disabling shadows", "no_shadows"));
             moduleItems.add(new ModuleItem("Xelo Title", "Changes the Start screen title image", "xelo_title"));
+            moduleItems.add(new ModuleItem("2x tpp view", "doubles your third person view radius, letting you see more than you're supposed to", "double_tppview"));
             moduleItems.add(new ModuleItem("White Block Outline", "changes the block selection outline to white", "white_block_outline"));
             moduleItems.add(new ModuleItem("No pumpkin overlay", "disables the dark blurry overlay when wearing pumpkin", "no_pumpkin_overlay"));
             moduleItems.add(new ModuleItem("No spyglass overlay", "disables the spyglass overlay when using spyglass", "no_spyglass_overlay"));
@@ -312,6 +313,7 @@ public class ModulesFragment extends BaseThemedFragment {
             defaultConfig.put("night_vision", false);
             defaultConfig.put("no_spyglass_overlay", false);
             defaultConfig.put("no_pumpkin_overlay", false);
+            defaultConfig.put("double_tppview", false)
             defaultConfig.put("xelo_title", true);
             
             try (FileWriter writer = new FileWriter(configFile)) {
