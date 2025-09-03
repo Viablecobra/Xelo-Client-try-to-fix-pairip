@@ -6,6 +6,7 @@
     "background": "#0A0A0A",
     "onBackground": "#FFFFFF",
     "surface": "#141414",
+    "bottom_navigation": "#141414",
     "onSurface": "#FFFFFF",
     "surfaceVariant": "#1F1F1F",
     "onSurfaceVariant": "#CCCCCC",

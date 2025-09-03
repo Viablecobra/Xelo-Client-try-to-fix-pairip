@@ -16,6 +16,7 @@ public class MainActivity extends BaseThemedActivity {
     private static final String PREFS_NAME = "app_preferences";
     private static final String KEY_FIRST_LAUNCH = "first_launch";
     private static final String KEY_DISCLAIMER_SHOWN = "disclaimer_shown";
+    private static final String KEY_THEMES_DIALOG_SHOWN = "themes_dialog_shown"; // New key for themes dialog
     private SettingsFragment settingsFragment;
 
     @Override
@@ -76,24 +77,49 @@ public class MainActivity extends BaseThemedActivity {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         boolean isFirstLaunch = prefs.getBoolean(KEY_FIRST_LAUNCH, true);
         boolean disclaimerShown = prefs.getBoolean(KEY_DISCLAIMER_SHOWN, false);
+        boolean themesDialogShown = prefs.getBoolean(KEY_THEMES_DIALOG_SHOWN, false);
         
         if (isFirstLaunch) {
-            showFirstLaunchDialog(prefs, disclaimerShown);
+            showFirstLaunchDialog(prefs, disclaimerShown, themesDialogShown);
             // Mark as not first launch anymore
             prefs.edit().putBoolean(KEY_FIRST_LAUNCH, false).apply();
+        } else if (!themesDialogShown) {
+            // Show themes dialog if it hasn't been shown yet (for existing users)
+            showThemesDialog(prefs, disclaimerShown);
         } else if (!disclaimerShown) {
             showDisclaimerDialog(prefs);
         }
     }
 
-    private void showFirstLaunchDialog(SharedPreferences prefs, boolean disclaimerShown) {
+    private void showFirstLaunchDialog(SharedPreferences prefs, boolean disclaimerShown, boolean themesDialogShown) {
         new MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog)
                 .setTitle("Welcome to Xelo Client")
                 .setMessage("Launch Minecraft once before doing anything, to make the config load properly")
                 .setIcon(R.drawable.ic_info) // You can use any icon you have, or remove this line
                 .setPositiveButton("Proceed", (dialog, which) -> {
                     dialog.dismiss();
-                    // Show disclaimer dialog after first launch dialog if not shown yet
+                    // Show themes dialog after first launch dialog if not shown yet
+                    if (!themesDialogShown) {
+                        showThemesDialog(prefs, disclaimerShown);
+                    } else if (!disclaimerShown) {
+                        // If themes dialog was already shown but disclaimer wasn't, show disclaimer
+                        showDisclaimerDialog(prefs);
+                    }
+                })
+                .setCancelable(false) // Prevents dismissing by tapping outside or back button
+                .show();
+    }
+    
+    private void showThemesDialog(SharedPreferences prefs, boolean disclaimerShown) {
+        new MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog)
+                .setTitle("THEMES!!🎉")
+                .setMessage("xelo client now supports custom themes! make your own themes from https://docs.xeloclient.com and download themes from https://themes.xeloclient.in")
+                .setIcon(R.drawable.ic_info) // You can use any icon you have, or remove this line
+                .setPositiveButton("Proceed", (dialog, which) -> {
+                    dialog.dismiss();
+                    // Mark themes dialog as shown
+                    prefs.edit().putBoolean(KEY_THEMES_DIALOG_SHOWN, true).apply();
+                    // Show disclaimer dialog after themes dialog if not shown yet
                     if (!disclaimerShown) {
                         showDisclaimerDialog(prefs);
                     }
