@@ -128,11 +128,16 @@ public class SettingsFragment extends BaseThemedFragment implements DiscordManag
                 Toast.makeText(getContext(), "Unable to open about", Toast.LENGTH_SHORT).show();
             }
         });
-        
         supportButton.setOnClickListener(v -> {
             try {
                 requireActivity().getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.slide_in_right,  
+                        R.anim.slide_out_right, 
+                        R.anim.slide_in_left,   
+                        R.anim.slide_out_left 
+                    )
                     .replace(android.R.id.content, new SupportFragment())
                     .addToBackStack(null)
                     .commit();
