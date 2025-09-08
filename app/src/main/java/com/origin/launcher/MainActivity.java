@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction; // Add this import
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.graphics.Color;
@@ -16,8 +17,9 @@ public class MainActivity extends BaseThemedActivity {
     private static final String PREFS_NAME = "app_preferences";
     private static final String KEY_FIRST_LAUNCH = "first_launch";
     private static final String KEY_DISCLAIMER_SHOWN = "disclaimer_shown";
-    private static final String KEY_THEMES_DIALOG_SHOWN = "themes_dialog_shown"; // New key for themes dialog
+    private static final String KEY_THEMES_DIALOG_SHOWN = "themes_dialog_shown";
     private SettingsFragment settingsFragment;
+    private int currentFragmentIndex = 0; // Move this to class level
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,28 +38,35 @@ public class MainActivity extends BaseThemedActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             String presenceActivity = "";
+            int newIndex = -1;
             
             if (item.getItemId() == R.id.navigation_home) {
                 selectedFragment = new HomeFragment();
                 presenceActivity = "In Home";
+                newIndex = 0;
             } else if (item.getItemId() == R.id.navigation_dashboard) {
                 selectedFragment = new DashboardFragment();
                 presenceActivity = "In Dashboard";
+                newIndex = 1;
             } else if (item.getItemId() == R.id.navigation_settings) {
-                // Keep reference to settings fragment for activity results
                 if (settingsFragment == null) {
                     settingsFragment = new SettingsFragment();
                 }
                 selectedFragment = settingsFragment;
                 presenceActivity = "In Settings";
+                newIndex = 2;
             }
 
             if (selectedFragment != null) {
-                getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, selectedFragment)
-                    .commit();
+                // Determine direction based on tab indices
+                boolean isForward = newIndex > getCurrentFragmentIndex();
                 
-                // Update Discord presence with custom text
+                navigateToFragmentWithAnimation(selectedFragment, isForward);
+                
+                // Update current fragment index
+                setCurrentFragmentIndex(newIndex);
+                
+                // Update Discord presence
                 DiscordRPCHelper.getInstance().updatePresence(presenceActivity, "Using the best MCPE Client");
                 
                 return true;
@@ -70,7 +79,40 @@ public class MainActivity extends BaseThemedActivity {
             getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new HomeFragment())
                 .commit();
+            setCurrentFragmentIndex(0); // Set initial index
         }
+    }
+    
+    // Remove the duplicate navigateToFragment method - keep only this one
+    private int getCurrentFragmentIndex() {
+        return currentFragmentIndex;
+    }
+
+    private void setCurrentFragmentIndex(int index) {
+        this.currentFragmentIndex = index;
+    }
+
+    private void navigateToFragmentWithAnimation(Fragment fragment, boolean isForward) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        
+        if (isForward) {
+            transaction.setCustomAnimations(
+                R.anim.slide_in_right,   // New fragment enters from right
+                R.anim.slide_out_left,   // Current fragment exits to left
+                R.anim.slide_in_left,    // Back: fragment enters from left
+                R.anim.slide_out_right   // Back: fragment exits to right
+            );
+        } else {
+            transaction.setCustomAnimations(
+                R.anim.slide_in_left,    // New fragment enters from left
+                R.anim.slide_out_right,  // Current fragment exits to right
+                R.anim.slide_in_right,   // Back: fragment enters from right
+                R.anim.slide_out_left    // Back: fragment exits to left
+            );
+        }
+        
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
     }
 
     private void checkFirstLaunch() {
@@ -95,7 +137,7 @@ public class MainActivity extends BaseThemedActivity {
         new MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog)
                 .setTitle("Welcome to Xelo Client")
                 .setMessage("Launch Minecraft once before doing anything, to make the config load properly")
-                .setIcon(R.drawable.ic_info) // You can use any icon you have, or remove this line
+                .setIcon(R.drawable.ic_info)
                 .setPositiveButton("Proceed", (dialog, which) -> {
                     dialog.dismiss();
                     // Show themes dialog after first launch dialog if not shown yet
@@ -106,7 +148,7 @@ public class MainActivity extends BaseThemedActivity {
                         showDisclaimerDialog(prefs);
                     }
                 })
-                .setCancelable(false) // Prevents dismissing by tapping outside or back button
+                .setCancelable(false)
                 .show();
     }
     
@@ -114,7 +156,7 @@ public class MainActivity extends BaseThemedActivity {
         new MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog)
                 .setTitle("THEMES!!🎉")
                 .setMessage("xelo client now supports custom themes! download themes from https://themes.xeloclient.in or make your own themes from https://docs.xeloclient.com")
-                .setIcon(R.drawable.ic_info) // You can use any icon you have, or remove this line
+                .setIcon(R.drawable.ic_info)
                 .setPositiveButton("Proceed", (dialog, which) -> {
                     dialog.dismiss();
                     // Mark themes dialog as shown
@@ -124,7 +166,7 @@ public class MainActivity extends BaseThemedActivity {
                         showDisclaimerDialog(prefs);
                     }
                 })
-                .setCancelable(false) // Prevents dismissing by tapping outside or back button
+                .setCancelable(false)
                 .show();
     }
 
@@ -134,7 +176,7 @@ public class MainActivity extends BaseThemedActivity {
                 .setMessage("This application is not affiliated with, endorsed by, or related to Mojang Studios, Microsoft Corporation, or any of their subsidiaries. " +
                            "Minecraft is a trademark of Mojang Studios. This is an independent third-party launcher. " +
                            "\n\nBy clicking 'I Understand', you acknowledge that you use this launcher at your own risk and that the developers are not responsible for any issues that may arise.")
-                .setIcon(R.drawable.ic_warning) // You can use a warning icon or remove this line
+                .setIcon(R.drawable.ic_warning)
                 .setPositiveButton("I Understand", (dialog, which) -> {
                     dialog.dismiss();
                     // Mark disclaimer as shown
