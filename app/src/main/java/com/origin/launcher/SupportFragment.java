@@ -6,15 +6,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
+import com.google.android.material.card.MaterialCardView;
 
 public class SupportFragment extends BaseThemedFragment {
 
-    private LinearLayout githubButton;
-    private LinearLayout discordButton;
+    private MaterialCardView githubButton;
+    private MaterialCardView discordButton;
     
     private static final String GITHUB_URL = "https://github.com/Xelo-Client/Xelo-Client";
     private static final String DISCORD_URL = "https://discord.gg/CHUchrEWwc";
