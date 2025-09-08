@@ -20,7 +20,8 @@ public class SettingsFragment extends BaseThemedFragment implements DiscordManag
 
     private EditText packageNameEdit;
     private LinearLayout themesButton;
-    private LinearLayout aboutButton; // Added about button reference
+    private LinearLayout aboutButton; 
+    private LinearLayout supportButton;
     
     // Discord components
     private com.google.android.material.button.MaterialButton discordLoginButton;
@@ -42,6 +43,7 @@ public class SettingsFragment extends BaseThemedFragment implements DiscordManag
         // Initialize themes and about buttons
         themesButton = view.findViewById(R.id.themes_button);
         aboutButton = view.findViewById(R.id.about_button);
+        supportButton = view.findViewById(R.id.support_button);
         
         // Initialize Discord components
         discordLoginButton = view.findViewById(R.id.discord_login_button);
@@ -124,6 +126,21 @@ public class SettingsFragment extends BaseThemedFragment implements DiscordManag
             } catch (Exception e) {
                 Log.e(TAG, "Error opening about", e);
                 Toast.makeText(getContext(), "Unable to open about", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+        supportButton.setOnClickListener(v -> {
+            try {
+                requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(android.R.id.content, new SupportFragment())
+                    .addToBackStack(null)
+                    .commit();
+                
+                Log.d(TAG, "Opening support fragment");
+            } catch (Exception e) {
+                Log.e(TAG, "Error opening support", e);
+                Toast.makeText(getContext(), "Unable to open support", Toast.LENGTH_SHORT).show();
             }
         });
     }
