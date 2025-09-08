@@ -17,7 +17,7 @@
             android:text="Support Us"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:textColor="@color/onBackground"
+            android:textColor="@color/onBackground" 
             android:layout_marginBottom="32dp"
             android:fontFamily="sans-serif-light" />
 
@@ -29,6 +29,61 @@
             android:textColor="@color/onBackground"
             android:layout_marginBottom="24dp"
             android:alpha="0.8" />
+            
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/donate_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/surface"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/outline"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="24dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/heart"
+                    android:layout_marginEnd="16dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Donate us"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/onSurface" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="support this open-source free project's development by donating us"
+                        android:textSize="14sp"
+                        android:textColor="@color/onSurface"
+                        android:alpha="0.7"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- GitHub Card -->
         <com.google.android.material.card.MaterialCardView
@@ -74,7 +129,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View source code and report issues"
+                        android:text="⭐ star our github repository"
                         android:textSize="14sp"
                         android:textColor="@color/onSurface"
                         android:alpha="0.7"
@@ -130,7 +185,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Join our community for support and updates"
+                        android:text="Join our community for suggestion and updates"
                         android:textSize="14sp"
                         android:textColor="@color/onSurface"
                         android:alpha="0.7"

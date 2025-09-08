@@ -32,10 +32,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Themes"
-            android:textSize="20sp"
-            android:textStyle="normal"
+            android:textSize="32sp"
+            android:textStyle="bold"
             android:textColor="@color/onBackground"
-            android:fontFamily="sans-serif" />
+            android:fontFamily="sans-serif-light" />
 
     </LinearLayout>
 

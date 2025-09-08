@@ -15,20 +15,21 @@ public class SupportFragment extends BaseThemedFragment {
 
     private MaterialCardView githubButton;
     private MaterialCardView discordButton;
+    private MaterialCardView donateButton;
     
     private static final String GITHUB_URL = "https://github.com/Xelo-Client/Xelo-Client";
     private static final String DISCORD_URL = "https://discord.gg/CHUchrEWwc";
+    private static final String DONATE_URL = "https://xeloclient.in/donate.html";
     private static final String TAG = "SupportFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_support, container, false);
         
-        // Initialize support buttons
         githubButton = view.findViewById(R.id.github_button);
         discordButton = view.findViewById(R.id.discord_button);
+        donateButton = view.findViewById(R.id.donate_button);
         
-        // Set up button click listeners
         setupButtonListeners();
         
         return view;
@@ -41,6 +42,9 @@ public class SupportFragment extends BaseThemedFragment {
         
         if (discordButton != null) {
             discordButton.setOnClickListener(v -> openUrl(DISCORD_URL, "Discord"));
+        }
+        if (donateButton != null) {
+            donateButton.setOnClickListener(v -> openUrl(DONATE_URL, "Donate"));
         }
     }
     
@@ -60,7 +64,6 @@ public class SupportFragment extends BaseThemedFragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Update Discord RPC when fragment resumes
         DiscordRPCHelper.getInstance().updateMenuPresence("Support");
     }
     
