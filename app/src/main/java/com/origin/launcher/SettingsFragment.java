@@ -102,6 +102,12 @@ public class SettingsFragment extends BaseThemedFragment implements DiscordManag
             try {
                 requireActivity().getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.slide_fade_in_right,  
+                        R.anim.slide_out_right, 
+                        R.anim.slide_in_left,   
+                        R.anim.slide_out_left 
+                    )
                     .replace(android.R.id.content, new ThemesFragment())
                     .addToBackStack(null)
                     .commit();
@@ -118,6 +124,12 @@ public class SettingsFragment extends BaseThemedFragment implements DiscordManag
             try {
                 requireActivity().getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.slide_in_right,  
+                        R.anim.slide_out_right, 
+                        R.anim.slide_in_left,   
+                        R.anim.slide_out_left 
+                    )
                     .replace(android.R.id.content, new AboutFragment())
                     .addToBackStack(null)
                     .commit();
