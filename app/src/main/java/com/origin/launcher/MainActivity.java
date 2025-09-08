@@ -97,17 +97,17 @@ public class MainActivity extends BaseThemedActivity {
         
         if (isForward) {
             transaction.setCustomAnimations(
-                R.anim.slide_in_right,   // New fragment enters from right
-                R.anim.slide_out_left,   // Current fragment exits to left
-                R.anim.slide_in_left,    // Back: fragment enters from left
-                R.anim.slide_out_right   // Back: fragment exits to right
+                R.anim.slide_in_right, 
+                R.anim.slide_out_left, 
+                R.anim.slide_in_left,  
+                R.anim.slide_out_right 
             );
         } else {
             transaction.setCustomAnimations(
-                R.anim.slide_in_left,    // New fragment enters from left
-                R.anim.slide_out_right,  // Current fragment exits to right
-                R.anim.slide_in_right,   // Back: fragment enters from right
-                R.anim.slide_out_left    // Back: fragment exits to left
+                R.anim.slide_in_left,  
+                R.anim.slide_out_right,  
+                R.anim.slide_in_right,  
+                R.anim.slide_out_left 
             );
         }
         
