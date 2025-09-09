@@ -20,6 +20,7 @@ public class SettingsFragment extends BaseThemedFragment implements DiscordManag
 
     private EditText packageNameEdit;
     private LinearLayout themesButton;
+    private LinearLayout configurationButton;
     private LinearLayout aboutButton; 
     private LinearLayout supportButton;
     
@@ -42,6 +43,7 @@ public class SettingsFragment extends BaseThemedFragment implements DiscordManag
         
         // Initialize themes and about buttons
         themesButton = view.findViewById(R.id.themes_button);
+        configurationButton = view.findViewById(R.id.configuration_button);
         aboutButton = view.findViewById(R.id.about_button);
         supportButton = view.findViewById(R.id.support_button);
         
@@ -109,6 +111,27 @@ public class SettingsFragment extends BaseThemedFragment implements DiscordManag
                         R.anim.slide_out_left 
                     )
                     .replace(android.R.id.content, new ThemesFragment())
+                    .addToBackStack(null)
+                    .commit();
+                
+                Log.d(TAG, "Opening themes fragment");
+            } catch (Exception e) {
+                Log.e(TAG, "Error opening themes", e);
+                Toast.makeText(getContext(), "Unable to open themes", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+        configurationButton.setOnClickListener(v -> {
+            try {
+                requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.slide_fade_in_right,  
+                        R.anim.slide_out_right, 
+                        R.anim.slide_in_left,   
+                        R.anim.slide_out_left 
+                    )
+                    .replace(android.R.id.content, new ConfigurationFragment())
                     .addToBackStack(null)
                     .commit();
                 
