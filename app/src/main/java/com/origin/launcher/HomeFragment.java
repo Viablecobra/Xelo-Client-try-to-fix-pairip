@@ -50,9 +50,12 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.origin.launcher.ThemeManager;
 import com.origin.launcher.ThemeUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 public class HomeFragment extends BaseThemedFragment {
 
+    private static final String TAG = "HomeFragment";
     private TextView listener;
     private Button mbl2_button;
     private Button versions_button;

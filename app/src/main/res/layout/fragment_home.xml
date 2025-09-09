@@ -49,14 +49,15 @@
 		android:textSize="16sp"
 		android:textColor="@color/onSurface" />
 
-	<com.google.android.material.button.MaterialButton
-		android:id="@+id/versions_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		app:icon="@drawable/swap_horizontal"
-		app:iconSize="24dp"
-		app:iconPadding="0dp"
-		style="@style/Widget.Material3.Button.IconButton" />
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/versions_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@android:color/transparent"
+    app:icon="@drawable/swap_horizontal"
+    app:iconSize="24dp"
+    app:iconPadding="0dp"
+    style="@style/Widget.Material3.Button.IconButton" />
 </LinearLayout>
 
 			<com.google.android.material.button.MaterialButton
