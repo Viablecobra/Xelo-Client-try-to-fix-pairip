@@ -50,7 +50,7 @@
 		android:textColor="@color/onSurface" />
 
 	<com.google.android.material.button.MaterialButton
-		android:id="@+id/swap_button"
+		android:id="@+id/versions_button"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		app:icon="@drawable/swap_horizontal"

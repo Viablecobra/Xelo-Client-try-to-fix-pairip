@@ -55,6 +55,7 @@ public class HomeFragment extends BaseThemedFragment {
 
     private TextView listener;
     private Button mbl2_button;
+    private Button versions_button;
     private com.google.android.material.button.MaterialButton shareLogsButton;
 
     @Override
@@ -63,6 +64,7 @@ public class HomeFragment extends BaseThemedFragment {
         
         listener = view.findViewById(R.id.listener);
         mbl2_button = view.findViewById(R.id.mbl2_load);
+        versions_button = view.findViewById(R.id.versions_button);
         shareLogsButton = view.findViewById(R.id.share_logs_button);
         Handler handler = new Handler(Looper.getMainLooper());
         
@@ -78,6 +80,27 @@ public class HomeFragment extends BaseThemedFragment {
                 // Get package name from settings
                 String packageName = getPackageNameFromSettings();
                 startLauncher(handler, listener, "launcher_mbl2.dex", packageName);
+            }
+        });
+        
+        versions_button.setOnClickListener(v -> {
+            try {
+                requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.slide_fade_in_right,  
+                        R.anim.slide_out_right, 
+                        R.anim.slide_in_left,   
+                        R.anim.slide_out_left 
+                    )
+                    .replace(android.R.id.content, new VersionsFragment())
+                    .addToBackStack(null)
+                    .commit();
+                
+                Log.d(TAG, "Opening themes fragment");
+            } catch (Exception e) {
+                Log.e(TAG, "Error opening themes", e);
+                Toast.makeText(getContext(), "Unable to open themes", Toast.LENGTH_SHORT).show();
             }
         });
         
@@ -417,5 +440,17 @@ public class HomeFragment extends BaseThemedFragment {
                 output.write(buffer, 0, bytesRead);
             }
         }
+    }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        DiscordRPCHelper.getInstance().updateMenuPresence("Playing");
+    }
+    
+    @Override
+    public void onPause() {
+        super.onPause();
+        DiscordRPCHelper.getInstance().updateIdlePresence();
     }
 }
