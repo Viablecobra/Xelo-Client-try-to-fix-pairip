@@ -95,7 +95,7 @@ Contribute themes/capes for Xelo! join [discord](https://dsc.gg/xelo) to get inv
     <img src="https://img.shields.io/badge/your-support-black" alt="ur gay">
 </a>
 
-
+  
 ## Like this client? ❤️
 Support it by giving a star ⭐ <br>
 Also, **__[follow](https://github.com/Xelo-Client)__** me for our next creations!
@@ -103,4 +103,4 @@ Also, **__[follow](https://github.com/Xelo-Client)__** me for our next creations
 ## Contributors
 <a href="https://github.com/Xelo-Client/Xelo-Client/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Xelo-Client/Xelo-Client" />
-</a>
+</a> 
