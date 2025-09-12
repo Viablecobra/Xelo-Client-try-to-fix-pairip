@@ -83,6 +83,7 @@ public class DashboardFragment extends BaseThemedFragment {
     
     // Modules navigation button
     private LinearLayout modulesButton;
+    private LinearLayout ResourceButton;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -167,6 +168,8 @@ public class DashboardFragment extends BaseThemedFragment {
         // Initialize modules navigation button
         initializeModulesButton(view);
         
+        initializeResourceButton(view);
+        
         // Initialize options.txt editor
         initializeOptionsEditor(view);
 
@@ -181,11 +184,39 @@ public class DashboardFragment extends BaseThemedFragment {
                 try {
                     requireActivity().getSupportFragmentManager()
                         .beginTransaction()
+                        .setCustomAnimations(
+                            R.anim.slide_fade_in_right,  
+                            R.anim.slide_out_right, 
+                            R.anim.slide_in_left,   
+                            R.anim.slide_out_left 
+                        )
                         .replace(android.R.id.content, new ModulesFragment())
                         .addToBackStack(null)
                         .commit();
                 } catch (Exception e) {
                     Toast.makeText(requireContext(), "Failed to open modules", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            });
+    private void initializeResourceButton(View view) {
+        resourceButton = view.findViewById(R.id.resource_button);
+        
+        if (resourceButton != null) {
+            resourceButton.setOnClickListener(v -> {
+                try {
+                    requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(
+                            R.anim.slide_fade_in_right,  
+                            R.anim.slide_out_right, 
+                            R.anim.slide_in_left,   
+                            R.anim.slide_out_left 
+                        )
+                        .replace(android.R.id.content, new ResourceFragment())
+                        .addToBackStack(null)
+                        .commit();
+                } catch (Exception e) {
+                    Toast.makeText(requireContext(), "Failed to open resource installer", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             });
