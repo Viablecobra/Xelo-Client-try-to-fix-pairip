@@ -177,27 +177,29 @@ public class DashboardFragment extends BaseThemedFragment {
     }
     
     private void initializeModulesButton(View view) {
-        modulesButton = view.findViewById(R.id.modules_button);
-        
-        if (modulesButton != null) {
-            modulesButton.setOnClickListener(v -> {
-                try {
-                    requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(
-                            R.anim.slide_fade_in_right,  
-                            R.anim.slide_out_right, 
-                            R.anim.slide_in_left,   
-                            R.anim.slide_out_left 
-                        )
-                        .replace(android.R.id.content, new ModulesFragment())
-                        .addToBackStack(null)
-                        .commit();
-                } catch (Exception e) {
-                    Toast.makeText(requireContext(), "Failed to open modules", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-            });
+    modulesButton = view.findViewById(R.id.modules_button);
+    
+    if (modulesButton != null) {
+        modulesButton.setOnClickListener(v -> {
+            try {
+                requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.slide_fade_in_right,  
+                        R.anim.slide_out_right, 
+                        R.anim.slide_in_left,   
+                        R.anim.slide_out_left 
+                    )
+                    .replace(android.R.id.content, new ModulesFragment())
+                    .addToBackStack(null)
+                    .commit();
+            } catch (Exception e) {
+                Toast.makeText(requireContext(), "Failed to open modules", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        });
+    }
+}
     private void initializeResourceButton(View view) {
         resourceButton = view.findViewById(R.id.resource_button);
         
