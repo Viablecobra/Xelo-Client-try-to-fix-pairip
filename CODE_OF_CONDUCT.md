@@ -1,10 +1,10 @@
 # 📜 Code of Conduct
 
-## 👋 Welcome to the Origin Client Community
+## 👋 Welcome to the Xelo Client Community
 
 We are committed to providing a friendly, safe, and inclusive environment for everyone — regardless of age, gender identity, disability, race, religion, or experience level.
 
-This Code of Conduct outlines our expectations for all participants in the Origin Client project and community spaces (GitHub, Discord, etc.).
+This Code of Conduct outlines our expectations for all participants in the Xelo Client project and community spaces (GitHub, Discord, etc.).
 
 ---
 
@@ -82,4 +82,4 @@ This Code of Conduct is adapted from the [Contributor Covenant](https://www.cont
 
 ---
 
-### 🤝 Thank you for being part of the Origin Client community!
+### 🤝 Thank you for being part of the Xelo Client community!

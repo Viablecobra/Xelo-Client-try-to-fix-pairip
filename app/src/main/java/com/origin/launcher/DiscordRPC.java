@@ -288,7 +288,7 @@ public class DiscordRPC {
                 
                 // Add assets with your uploaded image
                 JSONObject assets = new JSONObject();
-                assets.put("large_image", "untitled224_20250729210331"); // Your uploaded asset key (remove .png extension)
+                assets.put("large_image", "untitled224_20250731110425"); // Your uploaded asset key (remove .png extension)
                 assets.put("large_text", "Xelo Client - Best MCPE Client");
                 // Optional: Add small image if you have one
                 // assets.put("small_image", "small_icon_key");
@@ -297,7 +297,7 @@ public class DiscordRPC {
                 
                 activities.put(activity);
                 
-                Log.d(TAG, "Created activity with image asset: untitled224_20250729210331");
+                Log.d(TAG, "Created activity with image asset: untitled224_20250731110425");
             }
             
             return activities;

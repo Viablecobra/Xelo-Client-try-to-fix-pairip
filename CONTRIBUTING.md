@@ -1,6 +1,6 @@
-# 🧑‍💻 Contributing to Origin Client
+# 🧑‍💻 Contributing to Xelo Client
 
-Thank you for considering contributing to **Origin Client**, a Minecraft Bedrock open-source Android client! 🎮
+Thank you for considering contributing to **Xelo Client**, a Minecraft Bedrock open-source Android client! 🎮
 
 Whether you're fixing bugs, improving performance, building new features, or enhancing UI/UX — **we welcome all contributions**.
 
@@ -33,12 +33,12 @@ Whether you're fixing bugs, improving performance, building new features, or enh
 ## 🚀 Getting Started
 
 ### 1. Fork the Repository
-Click the **Fork** button at the top of the [Origin Client repo](https://github.com/Origin-Client/Origin) to create your own copy.
+Click the **Fork** button at the top of the [Xelo Client repo](https://github.com/Xelo-Client/Xelo) to create your own copy.
 
 ### 2. Clone Your Fork
 ```bash
-git clone https://github.com/Origin-Client/Origin.git
-cd Origin
+git clone https://github.com/Xelo-Client/Xelo.git
+cd Xelo
 ```
 
 ### 3. Set Up the Environment
@@ -97,19 +97,19 @@ Then go to your fork and click **"Compare & pull request"**.
 ## 🤝 Code of Conduct
 
 Please be respectful and inclusive.  
-We follow a standard [Code of Conduct](https://github.com/Origin-Client/Origin/blob/main/CODE_OF_CONDUCT.md).
+We follow a standard [Code of Conduct](https://github.com/Xelo-Client/Xelo/blob/main/CODE_OF_CONDUCT.md).
 
 ---
 
 ## 🙌 Need Help?
 
 - 💬 Join our Discord: [https://dsc.gg/origin-client](https://dsc.gg/origin-client)
-- 🐞 Found a bug? [Open an issue](https://github.com/Origin-Client/Origin/issues)
+- 🐞 Found a bug? [Open an issue](https://github.com/Xelo-Client/Xelo/issues)
 - 🧠 First time contributing? Ask for help — we’re friendly!
 
 ---
 
-> 🧠 *“Big or small, every contribution helps Origin Client grow!”*
+> 🧠 *“Big or small, every contribution helps Xelo Client grow!”*
 
 ---
 
