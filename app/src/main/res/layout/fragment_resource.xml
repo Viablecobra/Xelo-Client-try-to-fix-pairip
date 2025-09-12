@@ -28,14 +28,14 @@
             android:text="Install texture packs, maps, addons etc"
             android:textSize="16sp"
             android:textColor="@color/onBackground"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="15dp"
             android:alpha="0.8" />
             
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorSurface"
+            android:background="@color/background"
             app:tabMode="fixed"
             app:tabGravity="fill"
             app:tabTextColor="?attr/colorOnSurface"

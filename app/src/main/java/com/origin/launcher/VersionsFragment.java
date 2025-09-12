@@ -18,9 +18,33 @@ public class VersionsFragment extends BaseThemedFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_versions, container, false);
         
+        initializeTabs(view);
         
         return view;
     }
+    
+    private void initializeTabs(View view) {
+        tabLayout = view.findViewById(R.id.tab_layout);
+        viewPager = view.findViewById(R.id.view_pager);
+        
+        tabAdapter = new VersionsTabAdapter(this);
+        viewPager.setAdapter(tabAdapter);
+        
+        new TabLayoutMediator(tabLayout, viewPager,
+            (tab, position) -> {
+                switch (position) {
+                    case 0:
+                        tab.setText("stable");
+                        break;
+                    case 1:
+                        tab.setText("beta");
+                        break;
+                    default:
+                        tab.setText("Tab " + (position + 1));
+                }
+            }).attach();
+    }
+    
     
     @Override
     public void onResume() {
@@ -32,5 +56,30 @@ public class VersionsFragment extends BaseThemedFragment {
     public void onPause() {
         super.onPause();
         DiscordRPCHelper.getInstance().updateIdlePresence();
+    }
+    
+    
+        private static class VersionsTabAdapter extends FragmentStateAdapter {
+        
+        public VersionsTabAdapter(Fragment fragment) {
+            super(fragment);
+        }
+        
+        @Override
+        public Fragment createFragment(int position) {
+            switch (position) {
+                case 0:
+                    return new VersionsStableFragment();
+                case 1:
+                    return new VersionsBetaFragment();
+                default:
+                    return new VersionsStableFragment();
+            }
+        }
+        
+        @Override
+        public int getItemCount() {
+            return 2;
+        }
     }
 }
