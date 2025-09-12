@@ -28,8 +28,11 @@
             android:text="Install or change between minecraft versions"
             android:textSize="16sp"
             android:textColor="@color/onBackground"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="15dp"
             android:alpha="0.8" />
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
             
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"

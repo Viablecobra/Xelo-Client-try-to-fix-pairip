@@ -10,9 +10,16 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.FragmentStateAdapter;
 
 public class VersionsFragment extends BaseThemedFragment {
 
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager;
+    private VersionsTabAdapter tabAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +52,6 @@ public class VersionsFragment extends BaseThemedFragment {
             }).attach();
     }
     
-    
     @Override
     public void onResume() {
         super.onResume();
@@ -58,8 +64,7 @@ public class VersionsFragment extends BaseThemedFragment {
         DiscordRPCHelper.getInstance().updateIdlePresence();
     }
     
-    
-        private static class VersionsTabAdapter extends FragmentStateAdapter {
+    private static class VersionsTabAdapter extends FragmentStateAdapter {
         
         public VersionsTabAdapter(Fragment fragment) {
             super(fragment);
