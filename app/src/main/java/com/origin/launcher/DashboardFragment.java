@@ -83,7 +83,7 @@ public class DashboardFragment extends BaseThemedFragment {
     
     // Modules navigation button
     private LinearLayout modulesButton;
-    private LinearLayout ResourceButton;
+    private LinearLayout resourceButton;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
