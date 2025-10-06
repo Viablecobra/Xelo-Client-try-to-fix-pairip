@@ -48,8 +48,8 @@ pickFirst '**/libjnidispatch.so'
 
 dependencies {
 implementation libs.appcompat
-implementation libs.constraintlayout
 implementation libs.conscrypt.android
+implementation libs.constraintlayout
 implementation 'com.google.android.material:material:1.12.0'
 
 implementation 'org.java-websocket:Java-WebSocket:1.5.3'
